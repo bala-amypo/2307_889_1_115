@@ -1,19 +1,33 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
 @Entity
+@Table(name = "alert_records")
 public class AlertRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    [cite_start]private Long id; [cite: 108]
+    [cite_start]private Long shipmentId; [cite: 109]
+    [cite_start]private Long breachId; [cite: 110]
+    [cite_start]private boolean acknowledged; [cite: 111]
+    [cite_start]private LocalDateTime sentAt; [cite: 112]
 
-    private Long shipmentId;
-    private Long breachId;
-    private String alertType;
-    private String message;
-    private LocalDateTime sentAt;
-    private Boolean acknowledged;
+    [cite_start]public AlertRecord() {} [cite: 114]
+
+    [cite_start]public AlertRecord(Long shipmentId, Long breachId, boolean acknowledged, LocalDateTime sentAt) { [cite: 115]
+        this.shipmentId = shipmentId;
+        this.breachId = breachId;
+        this.acknowledged = acknowledged;
+        this.sentAt = sentAt;
+    }
 
     @PrePersist
-    void onCreate() {
-        sentAt = LocalDateTime.now();
-        acknowledged = false;
+    public void prePersist() {
+        [cite_start]this.acknowledged = false; [cite: 117]
+        [cite_start]this.sentAt = LocalDateTime.now(); [cite: 117]
     }
+
+    // Getters and Setters
 }
