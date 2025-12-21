@@ -1,0 +1,11 @@
+package com.example.demo.config;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SecurityConfig {
+    // Function definitions only as requested
+    public void passwordEncoder() {} 
+    public void filterChain() {}
+    public void authenticationManager() {}
+}
