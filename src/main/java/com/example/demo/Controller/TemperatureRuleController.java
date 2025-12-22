@@ -1,12 +1,36 @@
-package com.example.demo.Service;
+package com.example.demo.controller;
 
-public interface TemperatureRuleService {
+import com.example.demo.entity.TemperatureRule;
+import com.example.demo.service.TemperatureRuleService;
+import org.springframework.web.bind.annotation.*;
 
-    void addRule(String rule);
+import java.time.LocalDate;
+import java.util.List;
 
-    void updateRule(Long id, String rule);
+@RestController
+@RequestMapping("/rules")
+public class TemperatureRuleController {
 
-    void deleteRule(Long id);
+    private final TemperatureRuleService service;
 
-    String getAllRules();
+    public TemperatureRuleController(TemperatureRuleService service) {
+        this.service = service;
+    }
+
+    @PostMapping
+    public TemperatureRule createRule(@RequestBody TemperatureRule rule) {
+        return service.createRule(rule);
+    }
+
+    @GetMapping("/active")
+    public List<TemperatureRule> getActiveRules() {
+        return service.getActiveRules();
+    }
+
+    @GetMapping("/product/{productType}")
+    public TemperatureRule getRule(
+            @PathVariable String productType,
+            @RequestParam LocalDate date) {
+        return service.getRuleForProduct(productType, date).orElse(null);
+    }
 }

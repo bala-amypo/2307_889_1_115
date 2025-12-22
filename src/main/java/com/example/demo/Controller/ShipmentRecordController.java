@@ -1,28 +1,40 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
+import com.example.demo.entity.ShipmentRecord;
+import com.example.demo.service.ShipmentRecordService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/shipment")
+@RequestMapping("/shipments")
 public class ShipmentRecordController {
 
-    @GetMapping("/all")
-    public String getAllShipments() {
-        return "All shipments";
+    private final ShipmentRecordService service;
+
+    public ShipmentRecordController(ShipmentRecordService service) {
+        this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public String getShipment(@PathVariable Long id) {
-        return "Shipment " + id;
+    @PostMapping
+    public ShipmentRecord createShipment(@RequestBody ShipmentRecord shipment) {
+        return service.createShipment(shipment);
     }
 
-    @PostMapping("/create")
-    public String createShipment() {
-        return "Shipment created";
+    @PutMapping("/{id}/status")
+    public ShipmentRecord updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        return service.updateShipmentStatus(id, status);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteShipment(@PathVariable Long id) {
-        return "Shipment deleted " + id;
+    @GetMapping("/{code}")
+    public ShipmentRecord getByCode(@PathVariable String code) {
+        return service.getShipmentByCode(code).orElse(null);
+    }
+
+    @GetMapping
+    public List<ShipmentRecord> getAll() {
+        return service.getAllShipments();
     }
 }

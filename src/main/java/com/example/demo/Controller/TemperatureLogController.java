@@ -1,23 +1,28 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
+import com.example.demo.entity.TemperatureSensorLog;
+import com.example.demo.service.TemperatureLogService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/temperature")
+@RequestMapping("/logs")
 public class TemperatureLogController {
 
-    @GetMapping("/logs")
-    public String getLogs() {
-        return "Temperature logs";
+    private final TemperatureLogService service;
+
+    public TemperatureLogController(TemperatureLogService service) {
+        this.service = service;
     }
 
-    @PostMapping("/add")
-    public String addLog() {
-        return "Temperature log added";
+    @PostMapping
+    public TemperatureSensorLog addLog(@RequestBody TemperatureSensorLog log) {
+        return service.recordLog(log);
     }
 
-    @GetMapping("/latest")
-    public String getLatest() {
-        return "Latest temperature log";
+    @GetMapping("/shipment/{shipmentId}")
+    public List<TemperatureSensorLog> getLogs(@PathVariable Long shipmentId) {
+        return service.getLogsByShipment(shipmentId);
     }
 }

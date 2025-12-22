@@ -1,18 +1,27 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.*;
+import com.example.demo.entity.User;
+import com.example.demo.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    @PostMapping("/login")
-    public void login(@RequestBody LoginRequest request) {
-        // Implementation for authentication and JWT generation [cite: 271]
+
+    private final UserService service;
+
+    public AuthController(UserService service) {
+        this.service = service;
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody RegisterRequest request) {
-        // Implementation for user registration and JWT generation [cite: 272]
+    public ResponseEntity<User> register(@RequestBody User user) {
+        return ResponseEntity.ok(service.registerUser(user));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login() {
+        return ResponseEntity.ok("Login success (JWT skipped for college run)");
     }
 }
