@@ -5,18 +5,22 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "breach_records")
 public class BreachRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    [cite_start]private Long id; [cite: 92]
-    [cite_start]private Long shipmentId; [cite: 93]
-    [cite_start]private Long logId; [cite: 94]
-    [cite_start]private Double breachValue; [cite: 95]
-    [cite_start]private String severity; [cite: 96]
-    [cite_start]private boolean resolved; [cite: 97]
+    private Long id;
 
-    [cite_start]public BreachRecord() {} [cite: 99]
+    private Long shipmentId;
+    private Long logId;
+    private Double breachValue;
+    private String severity;
+    private boolean resolved;
 
-    [cite_start]public BreachRecord(Long shipmentId, Long logId, Double breachValue, String severity, boolean resolved) { [cite: 100]
+    public BreachRecord() {
+    }
+
+    public BreachRecord(Long shipmentId, Long logId,
+                         Double breachValue, String severity, boolean resolved) {
         this.shipmentId = shipmentId;
         this.logId = logId;
         this.breachValue = breachValue;
@@ -25,9 +29,35 @@ public class BreachRecord {
     }
 
     @PrePersist
-    public void prePersist() {
-        [cite_start]this.resolved = false; [cite: 102]
+    public void defaultResolved() {
+        this.resolved = false;
     }
 
-    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public Long getShipmentId() {
+        return shipmentId;
+    }
+
+    public Long getLogId() {
+        return logId;
+    }
+
+    public Double getBreachValue() {
+        return breachValue;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public boolean isResolved() {
+        return resolved;
+    }
+
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
+    }
 }
