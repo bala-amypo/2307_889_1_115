@@ -5,17 +5,20 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "shipment_records")
 public class ShipmentRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    [cite_start]private Long id; [cite: 42]
-    [cite_start]private String shipmentCode; [cite: 43]
-    [cite_start]private String origin; [cite: 44]
-    [cite_start]private String destination; [cite: 45]
-    [cite_start]private String status; [cite: 46]
+    private Long id;
 
-    [cite_start]public ShipmentRecord() {} [cite: 49]
+    private String shipmentCode;
+    private String origin;
+    private String destination;
+    private String status;
 
-    [cite_start]public ShipmentRecord(String shipmentCode, String origin, String destination, String status) { [cite: 50]
+    public ShipmentRecord() {
+    }
+
+    public ShipmentRecord(String shipmentCode, String origin, String destination, String status) {
         this.shipmentCode = shipmentCode;
         this.origin = origin;
         this.destination = destination;
@@ -23,10 +26,49 @@ public class ShipmentRecord {
     }
 
     @PrePersist
-    public void prePersist() {
+    public void setDefaultStatus() {
         if (this.status == null) {
-            [cite_start]this.status = "IN_TRANSIT"; [cite: 52]
+            this.status = "IN_TRANSIT";
         }
     }
-    // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getShipmentCode() {
+        return shipmentCode;
+    }
+
+    public void setShipmentCode(String shipmentCode) {
+        this.shipmentCode = shipmentCode;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
