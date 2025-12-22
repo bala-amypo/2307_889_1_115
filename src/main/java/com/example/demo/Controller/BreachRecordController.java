@@ -1,31 +1,28 @@
-package com.example.demo.controller;
+package com.example.demo.Controller;
 
-import com.example.demo.entity.BreachRecord;
-import com.example.demo.service.BreachDetectionService;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
-@RequestMapping("/breaches")
+@RequestMapping("/api/breach")
 public class BreachRecordController {
-    private final BreachDetectionService service;
 
-    public BreachRecordController(BreachDetectionService service) {
-        this.service = service; [cite: 238]
+    @GetMapping("/all")
+    public String getAllBreaches() {
+        return "All breach records";
     }
 
-    @PostMapping
-    public BreachRecord logBreach(@RequestBody BreachRecord breach) {
-        return service.logBreach(breach); [cite: 260]
+    @GetMapping("/{id}")
+    public String getBreachById(@PathVariable Long id) {
+        return "Breach ID: " + id;
     }
 
-    @PutMapping("/{id}/resolve")
-    public BreachRecord resolveBreach(@PathVariable Long id) {
-        return service.resolveBreach(id); [cite: 261]
+    @PostMapping("/create")
+    public String createBreach() {
+        return "Breach created";
     }
 
-    @GetMapping("/shipment/{shipmentId}")
-    public List<BreachRecord> getBreachesByShipment(@PathVariable Long shipmentId) {
-        return service.getBreachesByShipment(shipmentId); [cite: 262]
+    @DeleteMapping("/delete/{id}")
+    public String deleteBreach(@PathVariable Long id) {
+        return "Deleted breach " + id;
     }
 }

@@ -1,34 +1,28 @@
-package com.example.demo.controller;
+package com.example.demo.Controller;
 
-import com.example.demo.entity.ShipmentRecord;
-import com.example.demo.service.ShipmentRecordService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
-@RequestMapping("/shipments")
+@RequestMapping("/api/shipment")
 public class ShipmentRecordController {
-    private final ShipmentRecordService service;
 
-    [cite_start]public ShipmentRecordController(ShipmentRecordService service) { [cite: 238]
-        this.service = service;
+    @GetMapping("/all")
+    public String getAllShipments() {
+        return "All shipments";
     }
 
-    @PostMapping
-    [cite_start]public ShipmentRecord create(@RequestBody ShipmentRecord shipment) { [cite: 242]
-        return service.createShipment(shipment);
+    @GetMapping("/{id}")
+    public String getShipment(@PathVariable Long id) {
+        return "Shipment " + id;
     }
 
-    @PutMapping("/{id}/status")
-    [cite_start]public ShipmentRecord updateStatus(@PathVariable Long id, @RequestParam String status) { [cite: 243]
-        return service.updateShipmentStatus(id, status);
+    @PostMapping("/create")
+    public String createShipment() {
+        return "Shipment created";
     }
 
-    @GetMapping("/{code}")
-    [cite_start]public ResponseEntity<ShipmentRecord> getByCode(@PathVariable String code) { [cite: 244]
-        return service.getShipmentByCode(code)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @DeleteMapping("/delete/{id}")
+    public String deleteShipment(@PathVariable Long id) {
+        return "Shipment deleted " + id;
     }
 }
