@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,12 +15,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        return ResponseEntity.ok(service.registerUser(user));
+    public User register(@RequestBody User user) {
+        return service.registerUser(user);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login() {
-        return ResponseEntity.ok("Login success (JWT skipped for college run)");
+    public String login() {
+        return "Login successful (Security disabled for college demo)";
     }
 }
