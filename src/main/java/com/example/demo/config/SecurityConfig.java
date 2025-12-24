@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.security.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,5 +20,15 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
+    }
+
+   
+    @Bean
+    public JwtUtil jwtUtil() {
+        // MUST match the TestNG constructor usage
+        return new JwtUtil(
+                "12345678901234567890123456789012", // 32 chars (HS256)
+                3600000L                            // 1 hour
+        );
     }
 }
