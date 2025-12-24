@@ -5,36 +5,51 @@ import com.example.demo.service.ShipmentRecordService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/shipments")
+@RequestMapping("/api/shipments")
 public class ShipmentRecordController {
 
-    private final ShipmentRecordService service;
+    private final ShipmentRecordService shipmentService;
 
-    public ShipmentRecordController(ShipmentRecordService service) {
-        this.service = service;
+    public ShipmentRecordController(ShipmentRecordService shipmentService) {
+        this.shipmentService = shipmentService;
     }
 
+    // POST /api/shipments
     @PostMapping
     public ShipmentRecord createShipment(@RequestBody ShipmentRecord shipment) {
-        return service.createShipment(shipment);
+        return shipmentService.createShipment(shipment);
     }
 
+    // PUT /api/shipments/{id}/status
     @PutMapping("/{id}/status")
-    public ShipmentRecord updateStatus(
+    public ShipmentRecord updateShipmentStatus(
             @PathVariable Long id,
             @RequestParam String status) {
-        return service.updateShipmentStatus(id, status);
+        return shipmentService.updateShipmentStatus(id, status);
     }
 
-    @GetMapping("/{code}")
-    public ShipmentRecord getByCode(@PathVariable String code) {
-        return service.getShipmentByCode(code).orElse(null);
+    // GET /api/shipments/code/{shipmentCode}
+    @GetMapping("/code/{shipmentCode}")
+    public Optional<ShipmentRecord> getByCode(@PathVariable String shipmentCode) {
+        return shipmentService.getShipmentByCode(shipmentCode);
     }
 
+    // GET /api/shipments/{id}
+    @GetMapping("/{id}")
+    public ShipmentRecord getById(@PathVariable Long id) {
+        return shipmentService.getAllShipments()
+                .stream()
+                .filter(s -> s.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
+    }
+
+    // GET /api/shipments
     @GetMapping
-    public List<ShipmentRecord> getAll() {
-        return service.getAllShipments();
+    public List<ShipmentRecord> getAllShipments() {
+        return shipmentService.getAllShipments();
     }
 }
