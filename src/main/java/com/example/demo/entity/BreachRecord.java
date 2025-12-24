@@ -1,9 +1,9 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "breach_records")
 public class BreachRecord {
 
     @Id
@@ -12,52 +12,35 @@ public class BreachRecord {
 
     private Long shipmentId;
     private Long logId;
+    private String breachType;
     private Double breachValue;
     private String severity;
     private boolean resolved;
-
-    public BreachRecord() {
-    }
-
-    public BreachRecord(Long shipmentId, Long logId,
-                         Double breachValue, String severity, boolean resolved) {
-        this.shipmentId = shipmentId;
-        this.logId = logId;
-        this.breachValue = breachValue;
-        this.severity = severity;
-        this.resolved = resolved;
-    }
+    private LocalDateTime detectedAt;
 
     @PrePersist
-    public void defaultResolved() {
-        this.resolved = false;
+    public void prePersist() {
+        resolved = false;
+        detectedAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
-    }
+    public BreachRecord() {}
 
-    public Long getShipmentId() {
-        return shipmentId;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getLogId() {
-        return logId;
-    }
+    public Long getShipmentId() { return shipmentId; }
+    public void setShipmentId(Long shipmentId) { this.shipmentId = shipmentId; }
 
-    public Double getBreachValue() {
-        return breachValue;
-    }
+    public Long getLogId() { return logId; }
+    public void setLogId(Long logId) { this.logId = logId; }
 
-    public String getSeverity() {
-        return severity;
-    }
+    public Double getBreachValue() { return breachValue; }
+    public void setBreachValue(Double breachValue) { this.breachValue = breachValue; }
 
-    public boolean isResolved() {
-        return resolved;
-    }
+    public String getSeverity() { return severity; }
+    public void setSeverity(String severity) { this.severity = severity; }
 
-    public void setResolved(boolean resolved) {
-        this.resolved = resolved;
-    }
+    public boolean getResolved() { return resolved; }
+    public void setResolved(boolean resolved) { this.resolved = resolved; }
 }

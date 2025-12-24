@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "alert_records")
 public class AlertRecord {
 
     @Id
@@ -13,43 +12,30 @@ public class AlertRecord {
 
     private Long shipmentId;
     private Long breachId;
+    private String alertType;
+    private String message;
     private boolean acknowledged;
     private LocalDateTime sentAt;
 
-    public AlertRecord() {
-    }
-
-    public AlertRecord(Long shipmentId, Long breachId,
-                       boolean acknowledged, LocalDateTime sentAt) {
-        this.shipmentId = shipmentId;
-        this.breachId = breachId;
-        this.acknowledged = acknowledged;
-        this.sentAt = sentAt;
-    }
-
     @PrePersist
-    public void initAlert() {
-        this.acknowledged = false;
-        this.sentAt = LocalDateTime.now();
+    public void prePersist() {
+        acknowledged = false;
+        sentAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
-    }
+    public AlertRecord() {}
 
-    public Long getShipmentId() {
-        return shipmentId;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getBreachId() {
-        return breachId;
-    }
+    public Long getShipmentId() { return shipmentId; }
+    public void setShipmentId(Long shipmentId) { this.shipmentId = shipmentId; }
 
-    public boolean isAcknowledged() {
-        return acknowledged;
-    }
+    public Long getBreachId() { return breachId; }
+    public void setBreachId(Long breachId) { this.breachId = breachId; }
 
-    public LocalDateTime getSentAt() {
-        return sentAt;
-    }
+    public boolean getAcknowledged() { return acknowledged; }
+    public void setAcknowledged(boolean acknowledged) { this.acknowledged = acknowledged; }
+
+    public LocalDateTime getSentAt() { return sentAt; }
 }

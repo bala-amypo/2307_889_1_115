@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ShipmentRecordRepository extends JpaRepository<ShipmentRecord, Long> {
 
     Optional<ShipmentRecord> findByShipmentCode(String shipmentCode);
+
 }
