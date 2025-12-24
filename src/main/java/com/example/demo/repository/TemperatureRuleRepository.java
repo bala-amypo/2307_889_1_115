@@ -8,16 +8,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface TemperatureRuleRepository
-        extends JpaRepository<TemperatureRule, Long> {
+public interface TemperatureRuleRepository extends JpaRepository<TemperatureRule, Long> {
 
     List<TemperatureRule> findByActiveTrue();
 
     @Query("""
-       SELECT r FROM TemperatureRule r
-       WHERE r.productType = :productType
-       AND :date BETWEEN r.effectiveFrom AND r.effectiveTo
-       AND r.active = true
-    """)
+           SELECT r FROM TemperatureRule r
+           WHERE r.productType = :productType
+           AND :date BETWEEN r.effectiveFrom AND r.effectiveTo
+           """)
     Optional<TemperatureRule> findApplicableRule(String productType, LocalDate date);
+
 }

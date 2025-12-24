@@ -1,43 +1,80 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.ShipmentRecord;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.ShipmentRecordRepository;
 import com.example.demo.service.ShipmentRecordService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
 public class ShipmentRecordServiceImpl implements ShipmentRecordService {
 
-    private final ShipmentRecordRepository repo;
+    private final ShipmentRecordRepository shipmentRepo;
 
-    public ShipmentRecordServiceImpl(ShipmentRecordRepository repo) {
-        this.repo = repo;
+    // ⚠️ Constructor order STRICT (Test instantiates manually)
+    public ShipmentRecordServiceImpl(ShipmentRecordRepository shipmentRepo) {
+        this.shipmentRepo = shipmentRepo;
     }
 
     @Override
-    public synchronized ShipmentRecord createShipment(ShipmentRecord shipment) {
-        return repo.save(shipment);
+    public ShipmentRecord createShipment(ShipmentRecord shipment) {
+        return shipmentRepo.save(shipment);
     }
 
     @Override
     public ShipmentRecord updateShipmentStatus(Long id, String status) {
-        ShipmentRecord sr = repo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Shipment not found"));
-        sr.setStatus(status);
-        return repo.save(sr);
+        ShipmentRecord shipment = shipmentRepo.findById(id).orElseThrow();
+        shipment.setStatus(status);
+        return shipmentRepo.save(shipment);
     }
 
     @Override
     public Optional<ShipmentRecord> getShipmentByCode(String code) {
-        return repo.findByShipmentCode(code);
+        return shipmentRepo.findByShipmentCode(code);
     }
 
     @Override
     public List<ShipmentRecord> getAllShipments() {
-        return repo.findAll();
+        return shipmentRepo.findAll();
+    }
+}
+package com.example.demo.service.impl;
+
+import com.example.demo.entity.ShipmentRecord;
+import com.example.demo.repository.ShipmentRecordRepository;
+import com.example.demo.service.ShipmentRecordService;
+
+import java.util.List;
+import java.util.Optional;
+
+public class ShipmentRecordServiceImpl implements ShipmentRecordService {
+
+    private final ShipmentRecordRepository shipmentRepo;
+
+  
+    public ShipmentRecordServiceImpl(ShipmentRecordRepository shipmentRepo) {
+        this.shipmentRepo = shipmentRepo;
+    }
+
+    @Override
+    public ShipmentRecord createShipment(ShipmentRecord shipment) {
+        return shipmentRepo.save(shipment);
+    }
+
+    @Override
+    public ShipmentRecord updateShipmentStatus(Long id, String status) {
+        ShipmentRecord shipment = shipmentRepo.findById(id).orElseThrow();
+        shipment.setStatus(status);
+        return shipmentRepo.save(shipment);
+    }
+
+    @Override
+    public Optional<ShipmentRecord> getShipmentByCode(String code) {
+        return shipmentRepo.findByShipmentCode(code);
+    }
+
+    @Override
+    public List<ShipmentRecord> getAllShipments() {
+        return shipmentRepo.findAll();
     }
 }
