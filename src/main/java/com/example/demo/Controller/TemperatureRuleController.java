@@ -16,7 +16,7 @@ public class TemperatureRuleController {
 
     public TemperatureRuleController(TemperatureRuleService ruleService) {
         this.ruleService = ruleService;
-    demo/src/main/java/com/example/demo/dto
+    }
 
     // POST /api/rules
     @PostMapping
